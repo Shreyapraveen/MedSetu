@@ -1,0 +1,207 @@
+{
+  "info": {
+    "name": "NAMASTE Prototype API",
+    "_postman_id": "12345678-abcd-efgh-ijkl-1234567890ab",
+    "description": "Postman collection for NAMASTE Prototype Backend (all endpoints)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Autocomplete NAMASTE",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/autocomplete?q=Amavata",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["autocomplete"],
+          "query": [{ "key": "q", "value": "Amavata" }]
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"adminpass\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["login"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    const jsonData = pm.response.json();",
+              "    pm.environment.set(\"token\", jsonData.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get All Doctors",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/doctors",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["doctors"]
+        }
+      }
+    },
+    {
+      "name": "Get All Patients",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/patients",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["patients"]
+        }
+      }
+    },
+    {
+      "name": "Get User by ID",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/users/pat1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["users", "pat1"]
+        }
+      }
+    },
+    {
+      "name": "Profile",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/profile",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["profile"]
+        }
+      }
+    },
+    {
+      "name": "Create FHIR Bundle",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"patient_id\": \"pat1\",\n  \"doctor_id\": \"doc1\",\n  \"namaste_code\": \"NAM-0001\",\n  \"note\": \"Patient showing Amavata symptoms\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/fhir/bundle",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["fhir", "bundle"]
+        }
+      }
+    },
+    {
+      "name": "Fetch Patient Records",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/patients/pat1/records",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["patients", "pat1", "records"]
+        }
+      }
+    },
+    {
+      "name": "Generate Insurance Claim",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/claim/bundle1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["claim", "bundle1"]
+        }
+      }
+    },
+    {
+      "name": "Admin Login Transactions",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/admin/login-transactions",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["admin", "login-transactions"]
+        }
+      }
+    },
+    {
+      "name": "Admin Login Transactions CSV",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "http://localhost:3000/admin/login-transactions/csv",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["admin", "login-transactions", "csv"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "token", "value": "" }
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  { "code": "NAM-0001", "display": "Amavata", "icd11_tm2": "TM2-0456", "icd11_biomed": "BIO-001" },
+  { "code": "NAM-0002", "display": "Prameha", "icd11_tm2": "TM2-0342", "icd11_biomed": "BIO-002" },
+  { "code": "NAM-0003", "display": "Shvitra", "icd11_tm2": "TM2-0760", "icd11_biomed": "BIO-003" },
+  { "code": "NAM-0004", "display": "Vata Vyadhi", "icd11_tm2": "TM2-0457", "icd11_biomed": "BIO-004" },
+  { "code": "NAM-0005", "display": "Pitta Prakopa", "icd11_tm2": "TM2-0210", "icd11_biomed": "BIO-005" },
+  { "code": "NAM-0006", "display": "Kapha Avesta", "icd11_tm2": "TM2-0134", "icd11_biomed": "BIO-006" },
+  { "code": "NAM-0007", "display": "Grahani", "icd11_tm2": "TM2-0221", "icd11_biomed": "BIO-007" },
+  { "code": "NAM-0008", "display": "Arsha", "icd11_tm2": "TM2-0332", "icd11_biomed": "BIO-008" }
+]

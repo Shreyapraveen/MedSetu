@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MedSetu - AYUSH Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">MedSetu</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto" id="navLinks">
+            <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About AYUSH</a></li>
+            <li class="nav-item"><a class="nav-link" href="#diagnostic">Diagnostic Search</a></li>
+            <li class="nav-item" id="loginNav"><a class="nav-link" href="login.html" target="_self">Login</a></li>
+            <li class="nav-item" id="logoutNav" style="display:none;"><a class="nav-link" href="#" id="logoutBtn">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero text-center d-flex align-items-center justify-content-center">
+        <div>
+            <h1>Welcome to MedSetu</h1>
+            <p>Empowering Health Through AYUSH</p>
+        </div>
+    </section>
+
+    <!-- About AYUSH -->
+    <section id="about" class="container my-5">
+        <h2 class="text-center mb-4">About Ministry of AYUSH</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+                <img src="gov_india_logo.png" class="img-fluid mb-2" alt="Govt of India">
+                <img src="ayush_logo.png" class="img-fluid mb-2" alt="AYUSH Logo">
+            </div>
+            <div class="col-md-6">
+                <p>The Ministry of AYUSH develops, promotes, and disseminates traditional and alternative medicine systems in India. It plays a vital role in holistic healthcare and preventive medicine.</p>
+                <p>MedSetu portal integrates traditional AYUSH knowledge with modern diagnostic tools, making health management efficient for doctors, patients, and administrators.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Quotes -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Leadership Insights</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card p-3 text-center quote-card">
+                    <img src="modi_ji.jpg" class="rounded-circle mb-2" alt="PM Modi">
+                    <h5>Shri Narendra Modi</h5>
+                    <p>"Traditional systems of medicine are a treasure of knowledge. AYUSH plays a key role in a healthier India."</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3 text-center quote-card">
+                    <img src="ayush_minister.jpg" class="rounded-circle mb-2" alt="AYUSH Minister">
+                    <h5>Minister of AYUSH</h5>
+                    <p>"We are dedicated to strengthening holistic healthcare and integrating AYUSH into mainstream health services."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagnostic Search -->
+    <section id="diagnostic" class="container my-5">
+        <h2 class="text-center mb-4">Diagnostic Search</h2>
+        <div class="input-group mb-3">
+            <input type="text" id="diseaseQuery" class="form-control" placeholder="Search Disease / Code">
+            <button class="btn btn-primary" onclick="autocomplete()">Search</button>
+        </div>
+        <div id="output"></div>
+    </section>
+
+    <!-- Instagram Carousel -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Ayush Updates</h2>
+        <div id="instaCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="insta_post1.jpg" class="d-block w-75 mx-auto insta-img" alt="Post 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="insta_post2.jpg" class="d-block w-75 mx-auto insta-img" alt="Post 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="insta_post3.jpg" class="d-block w-75 mx-auto insta-img" alt="Post 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#instaCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#instaCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Health News -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Health News & Updates</h2>
+        <ul class="list-group">
+            <li class="list-group-item">AYUSH Ministry launches new wellness program for citizens.</li>
+            <li class="list-group-item">Yoga sessions now available online for remote regions.</li>
+            <li class="list-group-item">National campaign to promote Ayurveda-based preventive care.</li>
+            <li class="list-group-item">New herbal formulations approved for common ailments.</li>
+        </ul>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="frontend.js"></script>
+    <script>
+        // Navbar login/logout toggle
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const loginNav = document.getElementById('loginNav');
+            const logoutNav = document.getElementById('logoutNav');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (!loginNav || !logoutNav || !logoutBtn) return;
+
+            if (token) {
+                loginNav.style.display = 'none';
+                logoutNav.style.display = 'block';
+            } else {
+                loginNav.style.display = 'block';
+                logoutNav.style.display = 'none';
+            }
+
+            // Attach logout function safely
+            logoutBtn.addEventListener('click', () => {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

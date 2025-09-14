@@ -1,0 +1,37 @@
+[
+  {
+    "id": "doc1",
+    "username": "dr.arya",
+    "password": "docpass",
+    "role": "doctor",
+    "name": "Dr. Arya Sharma"
+  },
+  {
+    "id": "doc2",
+    "username": "dr.naina",
+    "password": "docpass2",
+    "role": "doctor",
+    "name": "Dr. Naina Verma"
+  },
+  {
+    "id": "pat1",
+    "username": "patient1",
+    "password": "patpass",
+    "role": "patient",
+    "name": "Ravi Kumar"
+  },
+  {
+    "id": "pat2",
+    "username": "patient2",
+    "password": "patpass2",
+    "role": "patient",
+    "name": "Anita Singh"
+  },
+  {
+    "id": "admin1",
+    "username": "admin",
+    "password": "adminpass",
+    "role": "admin",
+    "name": "System Admin"
+  }
+]

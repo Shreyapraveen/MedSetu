@@ -1,0 +1,150 @@
+/* ================= Global ================= */
+body {
+    background: url('bg.jpg') no-repeat center center scroll;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ================= Hero Section ================= */
+.hero {
+    padding-top: 70px;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg.jpg') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    padding-top: 56px; /* fixed navbar spacing */
+}
+
+/* ================= Card Spacing ================= */
+.card {
+    margin-bottom: 20px;
+}
+
+/* ================= Output Box ================= */
+#output {
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #fff;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+/* ================= Inputs ================= */
+.input-group input.form-control {
+    margin-right: 5px;
+}
+
+/* ================= Hidden Sections ================= */
+.hidden {
+    display: none !important;
+}
+
+/* ================= Tables ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table th, table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: left;
+}
+table th {
+    background-color: #0d6efd;
+    color: #fff;
+}
+table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* ================= Images ================= */
+.insta-img {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+}
+
+.quote-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* ================= AYUSH Logos ================= */
+#about img {
+    max-width: 60px; /* reduced size */
+    height: auto;
+    margin: 5px;
+}
+
+/* ================= Carousel Images ================= */
+#instaCarousel img {
+    max-width: 400px;
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
+/* ================= Buttons ================= */
+button {
+    margin-top: 5px;
+}
+
+/* ================= Login Page ================= */
+.login-card {
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card h3 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+#loginOutput {
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+/* ================= Button Colors ================= */
+.btn-primary {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+}
+.btn-primary:hover {
+    background-color: #5750d4;
+    border-color: #5750d4;
+}
+
+/* ================= Dashboard Output ================= */
+#output {
+    max-height: 400px;
+    overflow: auto;
+    background: #fff;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+/* ================= Doctor/Patient Input Groups ================= */
+#diagnosticSearch {
+    margin-bottom: 20px;
+}
+
+/* ================= Misc ================= */
+.card p {
+    margin-bottom: 0.5rem;
+}

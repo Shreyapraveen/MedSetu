@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSetu Prototype: Interactive Project Overview</title>
+    <!-- Chosen Palette: Ocean Serenity -->
+    <!-- Application Structure Plan: The SPA uses a "scrollytelling" or long-form narrative structure, guiding the user through the project's story from problem to solution to impact. A sticky navigation bar allows for quick access to thematic sections (The Challenge, Our Solution, Key Features, Code, etc.), making exploration non-linear and user-driven. This information architecture was chosen to first build context, then present the solution and its features, followed by a deeper dive into the technical details, source code, and project structure, catering to both technical and non-technical audiences. -->
+    <!-- Visualization & Content Choices: 
+        1. The Problem: Goal is to inform. A diagram built with HTML/CSS visually contrasts the fragmented current state with the unified MedSetu approach. Interaction: Hover effects provide more details on each block. Library: None, just Tailwind CSS. Justification: A simple visual diagram is more impactful than text alone for showing disconnection vs. connection.
+        2. The Solution: Goal is to organize. A system architecture diagram using HTML/CSS shows the flow of information (Frontend -> API -> Backend -> Data). Interaction: Hovering over components explains their roles. Library: None, just Tailwind CSS. Justification: Clearly visualizes the tech stack components and their relationships.
+        3. Key Features: Goal is to organize/inform. Interactive tabs are used to segment features by user role (Doctor, Patient). Interaction: Clicking tabs reveals different content panes. Library: Vanilla JS. Justification: This organizes a large amount of information cleanly and encourages user interaction to explore the features relevant to them.
+        4. Data & Analytics: Goal is to compare/inform. A dynamic bar chart visualizes the concept of dual-coding adoption. Interaction: A dropdown filter allows users to update the chart data dynamically. Library: Chart.js. Justification: This makes the abstract benefit of data collection tangible and demonstrates the analytical potential of the system.
+        5. Code & Structure: Goal is to inform. Raw code files and the project's folder structure are presented in a structured way with headers and preformatted text. Interaction: Buttons filter code files by backend/frontend. Library: Vanilla JS. Justification: Provides a valuable, transparent look at the project's technical implementation and architecture for a technical audience.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Soft Grey-Blue */
+            color: #2c3e50;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1a2a3a;
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s, transform 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #3498db; /* Ocean Blue */
+            border-color: #3498db;
+            transform: translateY(-2px);
+        }
+        .active-tab, .code-filter-button.active {
+            background-color: #1a2a3a !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        .tab-content, .code-section {
+            display: none;
+        }
+        .tab-content.active, .code-section.active {
+            display: block;
+        }
+        .diagram-box {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+        }
+        .diagram-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+        .chart-container {
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 40vh; 
+            max-height: 450px;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .chart-container:hover {
+              transform: translateY(-5px);
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .code-block code {
+            display: block;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">MedSetu ProtoType</h1>
+            <ul class="flex space-x-8 text-lg">
+                <li><a href="#challenge" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">The Challenge</a></li>
+                <li><a href="#solution" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">Our Solution</a></li>
+                <li><a href="#features" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">Key Features</a></li>
+                <li><a href="#analytics" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">Analytics</a></li>
+                <li><a href="#code" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">Code</a></li>
+                <li><a href="#structure" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">Structure</a></li>
+                <li><a href="#vision" class="nav-link text-gray-700 border-b-2 border-transparent pb-1">Future Vision</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section id="hero" class="text-center py-20 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl shadow-xl">
+            <h2 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">Bridging Traditional AYUSH and Modern Healthcare</h2>
+            <p class="text-xl text-gray-700 max-w-4xl mx-auto mt-6">An interactive overview of the MedSetu prototype, a digital platform for standardizing and integrating traditional medical records.</p>
+        </section>
+
+        <!-- The Challenge Section -->
+        <section id="challenge" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12">The Challenge: A Fragmented System</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-16 text-gray-600">Traditional AYUSH healthcare in India relies on diverse, often paper-based systems. This lack of a unified digital standard leads to disjointed records, inefficient data sharing, and difficulty integrating with modern global health frameworks like ICD-11.</p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                <!-- Fragmented State -->
+                <div class="w-full md:w-2/5">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Current State: Disconnected Data</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="diagram-box bg-white p-6 rounded-xl shadow-md border-2 border-gray-200 text-center"><strong>Ayurveda</strong><p class="text-sm mt-1 text-gray-500">Paper Records</p></div>
+                        <div class="diagram-box bg-white p-6 rounded-xl shadow-md border-2 border-gray-200 text-center"><strong>Yoga</strong><p class="text-sm mt-1 text-gray-500">Clinic Notes</p></div>
+                        <div class="diagram-box bg-white p-6 rounded-xl shadow-md border-2 border-gray-200 text-center"><strong>Unani</strong><p class="text-sm mt-1 text-gray-500">Local DBs</p></div>
+                        <div class="diagram-box bg-white p-6 rounded-xl shadow-md border-2 border-gray-200 text-center"><strong>Siddha</strong><p class="text-sm mt-1 text-gray-500">Manual Files</p></div>
+                    </div>
+                </div>
+                
+                <div class="text-5xl text-gray-300 transform rotate-90 md:rotate-0">➔</div>
+
+                <!-- Unified State -->
+                <div class="w-full md:w-2/5">
+                    <h3 class="text-2xl font-bold mb-6 text-center">MedSetu Solution: Unified Platform</h3>
+                    <div class="diagram-box bg-white p-10 rounded-2xl shadow-2xl border-2 border-transparent text-center relative overflow-hidden">
+                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-200 opacity-80"></div>
+                        <strong class="text-2xl relative">MedSetu</strong>
+                        <p class="text-base relative text-gray-700 mt-2">Standardized Digital Records</p>
+                        <p class="text-base relative text-gray-700">NAMASTE & ICD-11 Ready</p>
+                        <p class="text-base relative text-gray-700">Interoperable & Secure</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Solution Section -->
+        <section id="solution" class="py-20 bg-white rounded-2xl shadow-lg">
+            <h2 class="text-4xl font-bold text-center mb-12">Our Solution: A Centralized Hub</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-16 text-gray-600">MedSetu acts as a robust microservice, providing a secure RESTful API that connects the frontend user interface (EHRs, Doctor/Patient portals) with a structured backend, enabling seamless data management and exchange.</p>
+            <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 text-center text-sm font-semibold">
+                <div class="diagram-box flex items-center justify-center p-8 bg-gray-100 border-2 border-gray-200 rounded-xl w-full md:w-1/5">Frontend (EHR/Portal)</div>
+                <div class="flex items-center justify-center text-2xl p-2 transform rotate-90 md:rotate-0 text-gray-400">➔</div>
+                <div class="diagram-box flex flex-col items-center justify-center p-8 bg-blue-100 border-2 border-blue-200 rounded-xl w-full md:w-1/4">
+                    <span>Secure REST API</span>
+                    <span class="text-xs font-normal mt-1 text-gray-600">(JWT Authentication)</span>
+                </div>
+                <div class="flex items-center justify-center text-2xl p-2 transform rotate-90 md:rotate-0 text-gray-400">➔</div>
+                <div class="diagram-box flex items-center justify-center p-8 bg-indigo-100 border-2 border-indigo-200 rounded-xl w-full md:w-1/5">Node.js Backend</div>
+                <div class="flex items-center justify-center text-2xl p-2 transform rotate-90 md:rotate-0 text-gray-400">➔</div>
+                <div class="diagram-box flex items-center justify-center p-8 bg-gray-100 border-2 border-gray-200 rounded-xl w-full md:w-1/5">JSON Data Storage</div>
+            </div>
+        </section>
+
+        <!-- Key Features Section -->
+        <section id="features" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12">Key Features by User Role</h2>
+            <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+                <div class="flex justify-center border-b-2 border-gray-200 mb-8">
+                    <button class="tab-button active-tab py-3 px-8 text-lg font-semibold border-b-4 border-transparent rounded-t-lg transition" data-tab="doctor">Doctor's View</button>
+                    <button class="tab-button py-3 px-8 text-lg font-semibold border-b-4 border-transparent rounded-t-lg transition" data-tab="patient">Patient's Portal</button>
+                </div>
+                <div id="doctor" class="tab-content active">
+                     <div class="grid md:grid-cols-2 gap-12 items-center">
+                         <div>
+                             <h3 class="text-2xl font-bold mb-4 text-gray-800">Efficient Patient Management</h3>
+                             <p class="text-gray-600 mb-4">This section explains how the platform provides a streamlined workflow for doctors to manage patient records and utilize the standardized coding system effectively.</p>
+                             <ul class="list-disc list-inside space-y-3 text-gray-700">
+                                 <li><strong>Secure Login:</strong> Role-based access to the dashboard.</li>
+                                 <li><strong>Patient Record Management:</strong> Easily add and view patient consultation notes.</li>
+                                 <li><strong>Standardized Coding:</strong> Use an autocomplete search to find and apply official NAMASTE codes.</li>
+                                 <li><strong>Dual-Coding Ready:</strong> Records are structured to support both NAMASTE and mapped ICD-11 codes for interoperability.</li>
+                             </ul>
+                         </div>
+                         <div class="bg-gray-100 p-8 rounded-xl shadow-inner border-2 border-gray-200">
+                              <h4 class="font-bold mb-4 text-gray-800">Mockup: Add Patient Record</h4>
+                              <div class="space-y-4 text-sm text-gray-600">
+                                  <p><strong>Patient ID:</strong> <span class="bg-white p-2 rounded-lg font-mono text-gray-800 shadow-sm">pat1</span></p>
+                                  <p><strong>Diagnosis (NAMASTE):</strong> <span class="bg-white p-2 rounded-lg font-mono text-gray-800 shadow-sm">AYU001 - Ayurvedic Headache</span></p>
+                                  <p><strong>Notes:</strong></p>
+                                  <textarea class="w-full h-24 p-3 border border-gray-300 rounded-lg bg-white shadow-sm resize-none" readonly>Patient complains of chronic headache, suggested Ayurvedic herbs and lifestyle changes.</textarea>
+                                  <button class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg shadow-md hover:bg-indigo-700 transition transform hover:scale-105">Save Record</button>
+                              </div>
+                         </div>
+                     </div>
+                </div>
+                <div id="patient" class="tab-content">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4 text-gray-800">Empowering Patient Access</h3>
+                            <p class="text-gray-600 mb-4">This section highlights the key features of the patient portal, designed to give individuals secure and easy access to their personal health information.</p>
+                            <ul class="list-disc list-inside space-y-3 text-gray-700">
+                                <li><strong>Secure Portal Access:</strong> Log in to view personal health information.</li>
+                                <li><strong>View Medical Records:</strong> Access a clear history of diagnoses and notes from your doctor.</li>
+                                <li><strong>Doctor Information:</strong> See details of your consulting physician.</li>
+                                <li><strong>Insurance Ready:</strong> View mock insurance details, demonstrating readiness for claims processing.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-100 p-8 rounded-xl shadow-inner border-2 border-gray-200">
+                             <h4 class="font-bold mb-4 text-gray-800">Mockup: Patient Record</h4>
+                             <div class="bg-white p-5 rounded-lg border border-gray-300 my-4 shadow-sm">
+                                 <p class="mb-1 text-gray-700"><strong>Date:</strong> 2025-09-01</p>
+                                 <p class="mb-1 text-gray-700"><strong>Diagnosis:</strong> Ayurvedic Headache (AYU001)</p>
+                                 <p class="text-gray-700"><strong>Doctor's Note:</strong> Patient complains of chronic headache...</p>
+                             </div>
+                             <div class="bg-white p-5 rounded-lg border border-gray-300 my-4 shadow-sm">
+                                 <p class="mb-1 text-gray-700"><strong>My Doctor:</strong> Dr. Arya Sharma</p>
+                                 <p class="text-gray-700"><strong>Insurance:</strong> HealthCare Co. POL-PAT1</p>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data & Analytics Section -->
+        <section id="analytics" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12">Data & Analytics: The Power of Standardized Data</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-12 text-gray-600">The structured nature of MedSetu's data allows for powerful analytics and insights. This chart illustrates a hypothetical quarterly usage of NAMASTE and ICD-11 codes, demonstrating the system's ability to track dual-coding adoption and inform public health policy.</p>
+            <div class="chart-container">
+                <canvas id="diagnosesChart"></canvas>
+            </div>
+            <div class="flex justify-center mt-8">
+                <div class="flex items-center space-x-4">
+                    <label for="chartFilter" class="font-semibold text-gray-700">Filter by Diagnosis:</label>
+                    <select id="chartFilter" class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:border-blue-500">
+                        <option value="all">All Diagnoses</option>
+                        <option value="headache">Headache</option>
+                        <option value="digestive">Digestive Disorders</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Section -->
+        <section id="code" class="py-20 bg-white rounded-2xl shadow-lg">
+            <h2 class="text-4xl font-bold text-center mb-12">Raw Code Files</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-16 text-gray-600">Explore the raw source code and data files that power the MedSetu backend and frontend. Use the buttons below to filter the files.</p>
+            
+            <div class="flex justify-center space-x-4 mb-12">
+                <button class="code-filter-button active bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-full transition transform hover:scale-105" data-filter="all">All Files</button>
+                <button class="code-filter-button bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-full transition transform hover:scale-105" data-filter="backend">Backend</button>
+                <button class="code-filter-button bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-full transition transform hover:scale-105" data-filter="frontend">Frontend</button>
+            </div>
+
+            <div class="space-y-12">
+                <div class="code-section active" data-type="backend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Backend/package.json</h3>
+                    <pre class="code-block"><code>{
+    "name": "medsetu-backend",
+    "version": "1.0.0",
+    "description": "Backend for MedSetu prototype",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "fast-csv": "^4.3.6",
+        "jsonwebtoken": "^9.0.0",
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.0"
+    }
+}</code></pre>
+                </div>
+                <div class="code-section active" data-type="backend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Backend/server.js</h3>
+                    <pre class="code-block"><code>const express = require("express");
+const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
+const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const SECRET_KEY = process.env.SECRET_KEY || "hackathonSecret123";
+
+app.use(cors());
+app.use(express.json());
+
+// Mock data (in-memory database)
+const users = require("./data/users.json");
+const namasteCodes = require("./data/namaste.json");
+let records = require("./data/records.json");
+let loginTransactions = require("./data/login-transactions.json");
+
+// Utility to save data (for demonstration purposes)
+const saveData = (filename, data) => {
+    fs.writeFileSync(path.join(__dirname, "data", filename), JSON.stringify(data, null, 2));
+};
+
+// JWT Middleware
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+};
+
+// Routes
+app.post("/api/login", (req, res) => {
+    const { username, password } = req.body;
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+        const token = jwt.sign(user, SECRET_KEY, { expiresIn: '1h' });
+        loginTransactions.push({ userId: user.id, timestamp: new Date().toISOString() });
+        saveData("login-transactions.json", loginTransactions);
+        res.json({ token, user });
+    } else {
+        res.status(401).json({ message: "Invalid credentials" });
+    }
+});
+
+app.get("/api/records", authenticateToken, (req, res) => {
+    const { role, id } = req.user;
+    if (role === "doctor") {
+        res.json(records.filter(rec => rec.doctor_id === id));
+    } else if (role === "patient") {
+        res.json(records.filter(rec => rec.patient_id === id));
+    } else {
+        res.status(403).json({ message: "Forbidden" });
+    }
+});
+
+app.post("/api/records", authenticateToken, (req, res) => {
+    const { patient_id, namaste_code, note } = req.body;
+    if (req.user.role !== "doctor") return res.status(403).json({ message: "Forbidden" });
+
+    const newRecord = {
+        id: uuidv4(),
+        patient_id,
+        doctor_id: req.user.id,
+        namaste_code,
+        note,
+        createdAt: new Date().toISOString()
+    };
+    records.push(newRecord);
+    saveData("records.json", records);
+    res.status(201).json(newRecord);
+});
+
+app.get("/api/namaste", (req, res) => {
+    res.json(namasteCodes);
+});
+
+app.listen(PORT, () => {
+    console.log(Server running on port ${PORT});
+});</code></pre>
+                </div>
+                <div class="code-section active" data-type="backend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">data/namaste.json</h3>
+                    <pre class="code-block"><code>[
+    {
+        "code": "AYU001",
+        "display": "Ayurvedic Headache",
+        "icd11_tm2": "XA12.3",
+        "icd11_biomed": "MG11.2"
+    },
+    {
+        "code": "AYU002",
+        "display": "Digestive Disorder",
+        "icd11_tm2": "XA44.7",
+        "icd11_biomed": "MG22.5"
+    },
+    {
+        "code": "AYU003",
+        "display": "Yoga Therapy Recommendation",
+        "icd11_tm2": "XA55.9",
+        "icd11_biomed": "MG31.7"
+    }
+]</code></pre>
+                </div>
+                <div class="code-section active" data-type="backend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">data/users.json</h3>
+                    <pre class="code-block"><code>[
+    {
+        "id": "admin1",
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin",
+        "name": "System Admin"
+    },
+    {
+        "id": "doc1",
+        "username": "doctor",
+        "password": "doc123",
+        "role": "doctor",
+        "name": "Dr. Arya Sharma"
+    },
+    {
+        "id": "pat1",
+        "username": "patient1",
+        "password": "pat123",
+        "role": "patient",
+        "name": "Rahul Mehta"
+    },
+    {
+        "id": "pat2",
+        "username": "patient2",
+        "password": "pat123",
+        "role": "patient",
+        "name": "Anjali Singh"
+    }
+]</code></pre>
+                </div>
+                <div class="code-section active" data-type="backend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">data/records.json</h3>
+                    <pre class="code-block"><code>[
+    {
+        "id": "rec1",
+        "patient_id": "pat1",
+        "doctor_id": "doc1",
+        "namaste_code": "AYU001",
+        "note": "Patient complains of chronic headache, suggested Ayurvedic herbs",
+        "createdAt": "2025-09-01T10:00:00Z"
+    },
+    {
+        "id": "rec2",
+        "patient_id": "pat2",
+        "doctor_id": "doc1",
+        "namaste_code": "AYU002",
+        "note": "Indigestion, yoga therapy suggested",
+        "createdAt": "2025-09-05T09:30:00Z"
+    }
+]</code></pre>
+                </div>
+                <div class="code-section active" data-type="backend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">data/login-transactions.json</h3>
+                    <pre class="code-block"><code>[]</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/index.html</h3>
+                    <pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;MedSetu - Home&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;MedSetu&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;a href="index.html"&gt;Home&lt;/a&gt;
+            &lt;a href="#about"&gt;About AYUSH&lt;/a&gt;
+            &lt;a href="login.html"&gt;Login&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+    &lt;section id="hero"&gt;
+        &lt;h2&gt;Welcome to MedSetu&lt;/h2&gt;
+        &lt;p&gt;Empowering Health Through AYUSH&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section id="search"&gt;
+        &lt;h3&gt;Diagnostic Search&lt;/h3&gt;
+        &lt;input type="text" id="searchBox" placeholder="Search AYUSH diagnosis..."&gt;
+        &lt;ul id="results"&gt;&lt;/ul&gt;
+    &lt;/section&gt;
+    &lt;footer&gt;
+        &lt;p&gt;&copy; 2025 MedSetu&lt;/p&gt;
+    &lt;/footer&gt;
+    &lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/login.html</h3>
+                    <pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;MedSetu Login&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Login to MedSetu&lt;/h2&gt;
+    &lt;form id="loginForm"&gt;
+        &lt;label&gt;Username&lt;/label&gt;
+        &lt;input type="text" id="username" required&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input type="password" id="password" required&gt;
+        &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;p&gt;&lt;a href="index.html"&gt;Back to Home&lt;/a&gt;&lt;/p&gt;
+    &lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/doctor.html</h3>
+                    <pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Doctor Dashboard&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Doctor Dashboard&lt;/h2&gt;
+    &lt;div id="patientList"&gt;&lt;/div&gt;
+    &lt;div id="recordForm"&gt;
+        &lt;h3&gt;Add Patient Record&lt;/h3&gt;
+        &lt;input type="text" id="patientId" placeholder="Patient ID"&gt;
+        &lt;input type="text" id="namasteCode" placeholder="NAMASTE Code"&gt;
+        &lt;textarea id="note" placeholder="Notes"&gt;&lt;/textarea&gt;
+        &lt;button id="saveRecord"&gt;Save Record&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;script src="js/doctor.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/patient.html</h3>
+                    <pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Patient Portal&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Patient Portal&lt;/h2&gt;
+    &lt;div id="myRecords"&gt;&lt;/div&gt;
+    &lt;div id="insurance"&gt;&lt;/div&gt;
+    &lt;div id="myDoctor"&gt;&lt;/div&gt;
+    &lt;script src="js/patient.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/js/app.js</h3>
+                    <pre class="code-block"><code>const API_URL = "http://localhost:3000";
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Basic search functionality for the home page
+    const searchBox = document.getElementById('searchBox');
+    if (searchBox) {
+        searchBox.addEventListener('input', async (e) => {
+            const query = e.target.value;
+            const resultsList = document.getElementById('results');
+            resultsList.innerHTML = '';
+            if (query.length > 2) {
+                const response = await fetch(${API_URL}/api/namaste?q=${query});
+                const data = await response.json();
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = ${item.code} - ${item.display};
+                    resultsList.appendChild(li);
+                });
+            }
+        });
+    }
+
+    // Login Form logic
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            try {
+                const response = await fetch(${API_URL}/api/login, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.user.role);
+                    window.location.href = data.user.role === 'doctor' ? 'doctor.html' : 'patient.html';
+                } else {
+                    console.error('Login failed:', data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+});</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/js/doctor.js</h3>
+                    <pre class="code-block"><code>const API_URL = "http://localhost:3000";
+const token = localStorage.getItem("token");
+
+async function loadPatients() {
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+    const response = await fetch(${API_URL}/api/records, {
+        headers: { 'Authorization': Bearer ${token} }
+    });
+    const records = await response.json();
+    const patientListDiv = document.getElementById('patientList');
+    if (patientListDiv) {
+        patientListDiv.innerHTML = '<h3>Patient Records</h3>';
+        records.forEach(rec => {
+            const p = document.createElement('p');
+            p.textContent = ID: ${rec.patient_id}, Code: ${rec.namaste_code}, Notes: ${rec.note};
+            patientListDiv.appendChild(p);
+        });
+    }
+
+    const saveRecordBtn = document.getElementById('saveRecord');
+    if (saveRecordBtn) {
+        saveRecordBtn.addEventListener('click', async () => {
+            const patientId = document.getElementById('patientId').value;
+            const namasteCode = document.getElementById('namasteCode').value;
+            const note = document.getElementById('note').value;
+
+            await fetch(${API_URL}/api/records, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': Bearer ${token}
+                },
+                body: JSON.stringify({ patient_id: patientId, namaste_code: namasteCode, note })
+            });
+            loadPatients(); // Reload the list
+        });
+    }
+}
+
+loadPatients();</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/js/patient.js</h3>
+                    <pre class="code-block"><code>const API_URL = "http://http://localhost:3000";
+const token = localStorage.getItem("token");
+
+async function loadRecords() {
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+    const response = await fetch(${API_URL}/api/records, {
+        headers: { 'Authorization': Bearer ${token} }
+    });
+    const records = await response.json();
+    const myRecordsDiv = document.getElementById('myRecords');
+    if (myRecordsDiv) {
+        myRecordsDiv.innerHTML = '<h3>My Records</h3>';
+        records.forEach(rec => {
+            const p = document.createElement('p');
+            p.textContent = Date: ${new Date(rec.createdAt).toLocaleDateString()}, Code: ${rec.namaste_code}, Note: ${rec.note};
+            myRecordsDiv.appendChild(p);
+        });
+    }
+}
+
+function loadInsurance() {
+    const insuranceDiv = document.getElementById('insurance');
+    if (insuranceDiv) {
+        insuranceDiv.innerHTML = '<h3>Insurance Info</h3><p>Insurance: HealthCare Co. POL-PAT1</p>';
+    }
+}
+
+function loadDoctor() {
+    const doctorDiv = document.getElementById('myDoctor');
+    if (doctorDiv) {
+        doctorDiv.innerHTML = '<h3>My Doctor</h3><p>Dr. Arya Sharma</p>';
+    }
+}
+
+loadRecords();
+loadInsurance();
+loadDoctor();</code></pre>
+                </div>
+                <div class="code-section active" data-type="frontend">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700">Frontend/css/styles.css</h3>
+                    <pre class="code-block"><code>body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f9f9f9;
+}
+header {
+    background: #004d40;
+    color: white;
+    padding: 10px;
+}
+nav {
+    display: flex;
+    gap: 1rem;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+}
+section {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+input, textarea, button {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+button {
+    background: #00796b;
+    color: white;
+    cursor: pointer;
+}
+footer {
+    text-align: center;
+    color: #888;
+    padding: 10px;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Structure Section -->
+        <section id="structure" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12">Project Structure</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-16 text-gray-600">The MedSetu project is organized into a clean and logical directory structure that separates concerns, making the codebase maintainable and scalable.</p>
+            <div class="max-w-2xl mx-auto p-8 bg-white rounded-2xl shadow-lg">
+                <pre class="code-block"><code>MedSetu/
+├── Backend/          ← code for server (Express, routes, maybe authentication etc.)
+├── Frontend/         ← static pages, HTML, JS client-side logic
+├── Data/             ← JSON data (terminologies, user / patient / diagnosis records etc.)
+├── postman/          ← Postman collection(s) to test API endpoints
+├── package.json
+├── package-lock.json
+└── node_modules/
+</code></pre>
+            </div>
+        </section>
+
+        <!-- Future Vision Section -->
+        <section id="vision" class="py-20 text-center bg-gradient-to-br from-slate-700 to-slate-900 text-white rounded-2xl shadow-xl">
+            <h2 class="text-4xl font-bold mb-8">Future Vision</h2>
+            <p class="text-xl max-w-3xl mx-auto mb-8">MedSetu is a foundational prototype. The vision is to expand the platform to include telemedicine consultations, appointment booking, advanced analytics dashboards for public health, and direct integration with insurance provider APIs.</p>
+            <a href="#hero" class="bg-blue-400 text-slate-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-300 transition transform hover:scale-105">Back to Top</a>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-300 text-gray-500">
+        <p>&copy; 2025 MedSetu Project. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Interactive tabs logic
+            const tabButtons = document.querySelectorAll(".tab-button");
+            const tabContents = document.querySelectorAll(".tab-content");
+
+            tabButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    tabButtons.forEach(btn => btn.classList.remove("active-tab"));
+                    tabContents.forEach(content => content.classList.remove("active"));
+
+                    button.classList.add("active-tab");
+                    const tabId = button.dataset.tab;
+                    document.getElementById(tabId).classList.add("active");
+                });
+            });
+
+            // Chart.js logic
+            const chartData = {
+                all: {
+                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                    datasets: [{
+                        label: 'NAMASTE Codes',
+                        data: [150, 220, 310, 400],
+                        backgroundColor: '#3498db',
+                        borderRadius: 8,
+                    }, {
+                        label: 'ICD-11 Codes',
+                        data: [50, 80, 150, 250],
+                        backgroundColor: '#8e44ad',
+                        borderRadius: 8,
+                    }]
+                },
+                headache: {
+                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                    datasets: [{
+                        label: 'NAMASTE Codes',
+                        data: [40, 60, 90, 120],
+                        backgroundColor: '#3498db',
+                        borderRadius: 8,
+                    }, {
+                        label: 'ICD-11 Codes',
+                        data: [10, 25, 45, 70],
+                        backgroundColor: '#8e44ad',
+                        borderRadius: 8,
+                    }]
+                },
+                digestive: {
+                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                    datasets: [{
+                        label: 'NAMASTE Codes',
+                        data: [50, 75, 110, 150],
+                        backgroundColor: '#3498db',
+                        borderRadius: 8,
+                    }, {
+                        label: 'ICD-11 Codes',
+                        data: [15, 30, 50, 80],
+                        backgroundColor: '#8e44ad',
+                        borderRadius: 8,
+                    }]
+                }
+            };
+
+            const ctx = document.getElementById('diagnosesChart').getContext('2d');
+            const diagnosesChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData.all,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: 'Inter',
+                                    weight: 600
+                                }
+                            }
+                        },
+                        title: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e0e0e0'
+                            }
+                        },
+                        x: {
+                             grid: {
+                                color: '#e0e0e0'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const chartFilter = document.getElementById('chartFilter');
+            chartFilter.addEventListener('change', (e) => {
+                const selectedData = chartData[e.target.value];
+                diagnosesChart.data.labels = selectedData.labels;
+                diagnosesChart.data.datasets = selectedData.datasets;
+                diagnosesChart.update();
+            });
+
+            // Code filter logic
+            const codeFilterButtons = document.querySelectorAll(".code-filter-button");
+            const codeSections = document.querySelectorAll(".code-section");
+
+            codeFilterButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    codeFilterButtons.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    const filterType = button.dataset.filter;
+                    codeSections.forEach(section => {
+                        if (filterType === "all") {
+                            section.classList.add("active");
+                        } else {
+                            if (section.dataset.type === filterType) {
+                                section.classList.add("active");
+                            } else {
+                                section.classList.remove("active");
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MedSetu - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">MedSetu</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Welcome to MedSetu</h1>
+  <p id="welcomeMsg">Loading...</p>
+</section>
+
+<div class="container dashboard-section">
+
+  <!-- Diagnostic Search Section -->
+  <section id="diagnosticSearchSection" class="card p-3 mb-3">
+      <h4>Diagnostic Search</h4>
+      <div class="input-group mb-2" id="diagnosticSearch">
+          <input type="text" id="diseaseQuery" class="form-control" placeholder="Enter disease name or NAMASTE code">
+          <button class="btn btn-primary" onclick="autocomplete()">Search</button>
+      </div>
+      <p class="text-muted">Search results include NAMASTE code and ICD11 codes.</p>
+  </section>
+
+  <!-- Doctor Section -->
+  <section id="doctorSection" class="card p-3 mb-3 hidden">
+    <h4>Doctor Dashboard</h4>
+    <div class="mb-2">
+      <button class="btn btn-secondary me-2" onclick="getPatients()">Get All Patients</button>
+      <button class="btn btn-secondary me-2" onclick="getDoctors()">Get All Doctors</button>
+      <button class="btn btn-secondary" onclick="viewProfile()">My Profile</button>
+    </div>
+
+    <div class="card p-3 mt-3">
+      <h6>Fetch Patient Records</h6>
+      <div class="input-group">
+        <input type="text" id="patientId" class="form-control" placeholder="Patient ID">
+        <button class="btn btn-primary" onclick="fetchRecords()">Fetch Records</button>
+      </div>
+    </div>
+
+    <div class="card p-3 mt-3">
+      <h6>Add Record</h6>
+      <div class="input-group">
+        <input type="text" id="namasteCode" class="form-control" placeholder="NAMASTE Code">
+        <input type="text" id="note" class="form-control" placeholder="Note">
+        <button class="btn btn-success" onclick="addRecord()">Add Record</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Patient Section -->
+  <section id="patientSection" class="card p-3 mb-3 hidden">
+    <h4>Patient Dashboard</h4>
+    <div class="mb-2">
+      <button class="btn btn-primary me-2" onclick="fetchRecords()">View My Records</button>
+      <button class="btn btn-info me-2" onclick="viewDoctor()">View My Doctor</button>
+      <button class="btn btn-warning" onclick="viewInsurance()">View My Insurance</button>
+    </div>
+
+    <div class="card p-3 mt-3">
+      <h6>Generate Insurance Claim</h6>
+      <div class="input-group">
+        <input type="text" id="recordId" class="form-control" placeholder="Record ID (leave blank for latest)">
+        <button class="btn btn-success" onclick="generateClaim()">Generate Claim</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin Section -->
+  <section id="adminSection" class="card p-3 mb-3 hidden">
+    <h4>Admin Dashboard</h4>
+    <div class="mb-2">
+      <button class="btn btn-dark me-2" onclick="viewLoginTransactions()">Get Login Transactions</button>
+      <button class="btn btn-dark" onclick="downloadLoginCSV()">Download CSV</button>
+    </div>
+  </section>
+
+  <!-- Output Section -->
+  <section class="card p-3 mb-4">
+    <h4>Output</h4>
+    <div id="output"></div>
+  </section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="frontend.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+      // Show welcome message
+      const username = localStorage.getItem("username") || "User";
+      document.getElementById("welcomeMsg").innerText = `Hello, ${username}!`;
+
+      // Role-based sections
+      const role = localStorage.getItem("role");
+      if (role === "doctor") document.getElementById("doctorSection").classList.remove("hidden");
+      else if (role === "patient") document.getElementById("patientSection").classList.remove("hidden");
+      else if (role === "admin") document.getElementById("adminSection").classList.remove("hidden");
+
+      // Clear doctor patientId input to avoid stale values
+      const patientIdInput = document.getElementById("patientId");
+      if (patientIdInput) patientIdInput.value = "";
+  });
+</script>
+</body>
+</html>
